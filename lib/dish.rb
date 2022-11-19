@@ -1,12 +1,16 @@
-class Dish
-  def initialize(dish, price) # dish is a string and price is float
-  end
+Dish = Struct.new(:dish, :price) do
+  # def initialize(dish, price) # dish is a string and price is float
+  #   @dish = dish
+  #   @price = price
+  # end
 
-  def dish # returns dish as string
-  end
+  # def dish # returns dish as string
+  #   @dish
+  # end
 
-  def price # returns price as float
-  end
+  # def price # returns price as float
+  #   @price
+  # end
 
   def format
     # Returns a string of the form "dish, £price"
