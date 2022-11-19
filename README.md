@@ -153,7 +153,6 @@ menu.add(dish_1)
 menu.add(dish_2)
 menu.list => [dish_1, dish_2]
 
-# 
 menu = DishList.new
 dish_1 = Dish.new("Pizza", 12.00)
 dish_2 = Dish.new("Pasta", 11.00)
@@ -164,15 +163,6 @@ dish_1.select
 dish_2.select
 menu.selection => [dish_1, dish_2]
 
-menu = DishList.new
-dish_1 = Dish.new("Pizza", 12.00)
-dish_2 = Dish.new("Pasta", 11.00)
-dish_3 = Dish.new("Cake", 7.00)
-menu.add(dish_1)
-menu.add(dish_2)
-dish_1.select
-dish_2.select
-menu.selection => [dish_1, dish_2]
 ```
 
 ## 4. Create Examples as Unit Tests
@@ -183,9 +173,28 @@ a more granular level of detail._
 ```ruby
 # EXAMPLE
 
-# Constructs a track
-track = Track.new("Carte Blanche", "Veracocha")
-track.title # => "Carte Blanche"
+# Constructs a dish
+
+dish = Dish.new("pizza", 12.00)
+dish.dish => "pizza"
+
+dish = Dish.new("pizza", 12.00)
+dish.price => 12.00
+
+dish = Dish.new("pizza", 12.00)
+dish.format => "pizza, £12.00"
+
+dish = Dish.new("pizza", 12.00)
+dish.selected
+dish.is_selected? => true
+
+dish = Dish.new("pizza", 12.00)
+dish.is_selected? => false
+
+dish = Dish.new("pizza", 12.00)
+dish.selected
+dish.deselect => false
+
 ```
 
 _Encode each example as a test. You can add to the above list as you go._

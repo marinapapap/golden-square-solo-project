@@ -15,7 +15,11 @@ class DishList
   end
   
   def selection
-    # returns selected dishes
+
+    @dish_list.select do |dish|
+      dish.is_selected?
+    end
+
   end
 
   def receipt(selection)
