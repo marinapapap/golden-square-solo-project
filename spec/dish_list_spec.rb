@@ -38,12 +38,22 @@ RSpec.describe DishList do
 
     it "returns fake receipt" do
       dish_list = DishList.new
-      dish_1 = double :dish, is_selected?: true, format: "pizza, £12.00"
-      dish_2 = double :dish, is_selected?: true, format: "pasta, £12.00"
+      dish_1 = double :dish, is_selected?: true, format: "pizza, £12.00", price: 12.00
+      dish_2 = double :dish, is_selected?: true, format: "pasta, £12.00", price: 12.00
       dish_list.add(dish_1)
       dish_list.add(dish_2)
       result = dish_list.receipt
-      expect(result).to eq ["pizza, £12.00", "pasta, £12.00"]
+      expect(result).to eq ["pizza, £12.00", "pasta, £12.00", "Total cost: £24.00"]
+    end
+
+    it "returns grand total as string" do
+      dish_list = DishList.new
+      dish_1 = double :dish, is_selected?: true, price: 12.00
+      dish_2 = double :dish, is_selected?: true, price: 12.00
+      dish_list.add(dish_1)
+      dish_list.add(dish_2)
+      result = dish_list.grand_total
+      expect(result).to eq "Total cost: £24.00"
     end
   end
 end

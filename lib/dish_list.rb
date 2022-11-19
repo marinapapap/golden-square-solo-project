@@ -26,6 +26,14 @@ class DishList
   # takes selection and returns itemised receipt with grand total
     selection.map do |item|
       item.format
-    end
+    end.push(grand_total)
+  end
+
+  def grand_total
+    sum = selection.map do |item|
+      item.price
+    end.sum
+
+    "Total cost: £#{'%.2f' % sum}"
   end
 end

@@ -89,7 +89,7 @@ class DishList
     # returns selected dishes
   end
 
-  def receipt(selection)
+  def receipt
   # takes selection and returns itemised receipt with grand total
   end
 end
