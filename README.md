@@ -1,6 +1,6 @@
 # {{Golden Square Solo Project}} Multi-Class Planned Design Recipe
 
-## 1. Describe the Problem
+## Describe the Problem
 
 Here is a project to test your golden square skills overall:
 
@@ -28,7 +28,7 @@ Fair warning: if you push your Twilio API Key to a public Github repository,
 anyone will be able to see and use it. What are the security implications of
 that? How will you keep that information out of your repository?
 
-## 2. Design the Class System
+## Design the Class System
 
 _Consider diagramming out the classes and their relationships. Take care to
 focus on the details you see as important, not everything. The diagram below
@@ -137,15 +137,12 @@ end
 
 ```
 
-## 3. Create Examples as Integration Tests
-
-_Create examples of the classes being used together in different situations and
-combinations that reflect the ways in which the system will be used._
+## Integration Tests
 
 ```ruby
-# EXAMPLE
 
 # Gets all dishes
+
 menu = DishList.new
 dish_1 = Dish.new("Pizza", 12.00)
 dish_2 = Dish.new("Pasta", 11.00)
@@ -163,17 +160,71 @@ dish_1.select
 dish_2.select
 menu.selection => [dish_1, dish_2]
 
+dish_list = DishList.new
+dish_1 = Dish.new("pizza", 12.00)
+dish_2 = Dish.new("pasta", 12.00)
+dish_3 = Dish.new("cake", 12.00)
+dish_list.add(dish_1)
+dish_list.add(dish_2)
+dish_list.add(dish_3)
+dish_1.selected
+dish_2.selected
+dish_2.deselect
+dish_3.selected
+dish_list.selection => [dish_1, dish_3]
+
+dish_list = DishList.new
+dish_1 = Dish.new("pizza", 12.00)
+dish_2 = Dish.new("pasta", 12.00)
+dish_3 = Dish.new("cake", 12.00)
+dish_list.add(dish_1)
+dish_list.add(dish_2)
+dish_list.add(dish_3)
+dish_1.selected
+dish_2.selected
+dish_list.receipt => ["pizza, £12.00", "pasta, £12.00"]
 ```
 
-## 4. Create Examples as Unit Tests
-
-_Create examples, where appropriate, of the behaviour of each relevant class at
-a more granular level of detail._
+## Unit Tests
 
 ```ruby
-# EXAMPLE
 
-# Constructs a dish
+# Constructs DishList
+
+dish_list = DishList.new
+dish_list.list => []
+
+dish_list = DishList.new
+dish_list.selection => []
+
+dish_list = DishList.new
+dish_1 = double :fake_dish
+dish_2 = double :fake_dish
+dish_list.add(dish_1)
+dish_list.add(dish_2)
+dish_list.list => [dish_1, dish_2]
+
+dish_list = DishList.new
+dish_1 = double :dish, is_selected?: true
+dish_2 = double :dish, is_selected?: true
+dish_3 = double :dish, is_selected?: false
+dish_list.add(dish_1)
+dish_list.add(dish_2)
+dish_list.add(dish_3)
+dish_list.selection => [dish_1, dish_2]
+
+dish_list = DishList.new
+dish_1 = double :dish, is_selected?: true, format: "pizza, £12.00"
+dish_2 = double :dish, is_selected?: true, format: "pasta, £12.00"
+dish_list.add(dish_1)
+dish_list.add(dish_2)
+dish_list.receipt => ["pizza, £12.00", "pasta, £12.00"]
+
+```
+
+```ruby
+
+# Constructs Dish
 
 dish = Dish.new("pizza", 12.00)
 dish.dish => "pizza"
@@ -196,6 +247,7 @@ dish.selected
 dish.deselect => false
 
 ```
+
 
 _Encode each example as a test. You can add to the above list as you go._
 

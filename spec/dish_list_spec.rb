@@ -35,5 +35,15 @@ RSpec.describe DishList do
       result = dish_list.selection
       expect(result).to eq [dish_1, dish_2]
     end
+
+    it "returns fake receipt" do
+      dish_list = DishList.new
+      dish_1 = double :dish, is_selected?: true, format: "pizza, £12.00"
+      dish_2 = double :dish, is_selected?: true, format: "pasta, £12.00"
+      dish_list.add(dish_1)
+      dish_list.add(dish_2)
+      result = dish_list.receipt
+      expect(result).to eq ["pizza, £12.00", "pasta, £12.00"]
+    end
   end
 end

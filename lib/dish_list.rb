@@ -22,7 +22,10 @@ class DishList
 
   end
 
-  def receipt(selection)
+  def receipt
   # takes selection and returns itemised receipt with grand total
+    selection.map do |item|
+      item.format
+    end
   end
 end
