@@ -11,13 +11,11 @@ Dish = Struct.new(:dish, :price) do
 
   def selected
     # formats dish for selection
-    # "#{@dish}, £#{'%.2f' % @price}" + " -> selected"
     @selected = true
   end
 
   def deselect
     # reverse formatting, deselects dish
-    # selected.gsub(" -> selected", "")
     @selected = false
   end
 end

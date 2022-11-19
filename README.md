@@ -30,9 +30,7 @@ that? How will you keep that information out of your repository?
 
 ## Design the Class System
 
-_Consider diagramming out the classes and their relationships. Take care to
-focus on the details you see as important, not everything. The diagram below
-uses asciiflow.com but you could also use excalidraw.com, draw.io, or miro.com_
+> Initial mapping out of classes
 
 ```
  ┌─────────────────────┐
@@ -68,12 +66,12 @@ uses asciiflow.com but you could also use excalidraw.com, draw.io, or miro.com_
 
 ```
 
-_Also design the interface of each class in more detail._
+> Class models
 
 ```ruby
+
 class DishList
   def initialize
-    # ...
   end
 
   def add(dish_with_price) # dish_with_price is an instance of Dish
@@ -82,42 +80,37 @@ class DishList
   end
 
   def list
-    # Returns list of dishes
+    # Returns list of all dishes
   end
   
   def selection
-    # returns selected dishes
+    # returns list of selected dishes
   end
 
   def receipt
-  # takes selection and returns itemised receipt with grand total
+    # takes selection and returns itemised receipt with grand total
+  end
+
+  def grand_total
+    # calculates grand total
   end
 end
 
-class Dish
-  def initialize(dish, price) # dish is a string and price is float
-  end
-
-  def dish # returns dish as string
-  end
-
-  def price # returns price as float
+Dish = Struct.new(:dish, :price) do
+  def is_selected?
+    # returns true if dish has been selected
   end
 
   def format
-    # Returns a string of the form "dish, £price"
+    # Returns a string in the form "dish, £price"
   end
 
-  def select
+  def selected
     # formats dish for selection
   end
 
   def deselect
     # reverse formatting, deselects dish
-  end
-
-  def is_selected?
-    # returns true if dish has been selected
   end
 end
 
@@ -183,6 +176,17 @@ dish_list.add(dish_3)
 dish_1.selected
 dish_2.selected
 dish_list.receipt => ["pizza, £12.00", "pasta, £12.00"]
+
+dish_list = DishList.new
+dish_1 = Dish.new("pizza", 12.00)
+dish_2 = Dish.new("pasta", 12.00)
+dish_3 = Dish.new("cake", 12.00)
+dish_list.add(dish_1)
+dish_list.add(dish_2)
+dish_list.add(dish_3)
+dish_1.selected
+dish_2.selected
+dish_list.receipt => ["pizza, £12.00", "pasta, £12.00", "Total cost: £24.00"]
 ```
 
 ## Unit Tests
@@ -214,11 +218,18 @@ dish_list.add(dish_3)
 dish_list.selection => [dish_1, dish_2]
 
 dish_list = DishList.new
-dish_1 = double :dish, is_selected?: true, format: "pizza, £12.00"
-dish_2 = double :dish, is_selected?: true, format: "pasta, £12.00"
+dish_1 = double :dish, is_selected?: true, format: "pizza, £12.00", price: 12.00
+dish_2 = double :dish, is_selected?: true, format: "pasta, £12.00", price: 12.00
 dish_list.add(dish_1)
 dish_list.add(dish_2)
-dish_list.receipt => ["pizza, £12.00", "pasta, £12.00"]
+dish_list.receipt => ["pizza, £12.00", "pasta, £12.00", "Total cost: £24.00"]
+
+dish_list = DishList.new
+dish_1 = double :dish, is_selected?: true, price: 12.00
+dish_2 = double :dish, is_selected?: true, price: 12.00
+dish_list.add(dish_1)
+dish_list.add(dish_2)
+dish_list.grand_totalresult => "Total cost: £24.00"
 
 ```
 
@@ -247,12 +258,4 @@ dish.selected
 dish.deselect => false
 
 ```
-
-
-_Encode each example as a test. You can add to the above list as you go._
-
-## 5. Implement the Behaviour
-
-_After each test you write, follow the test-driving process of red, green,
-refactor to implement the behaviour._
 
